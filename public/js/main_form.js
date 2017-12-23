@@ -161,7 +161,8 @@ function prepareDistanceMatrix (origins, destinations, callback) {
 
 var resultarray = []
 var qdata = []
-resultarray.push({source: 'Delhi',
+resultarray.push({
+  source: 'Delhi',
   destination: 'Jaipur',
   distance: 250,
   channeltype: 'A',
@@ -170,7 +171,9 @@ resultarray.push({source: 'Delhi',
   truckid: 1234,
   truckcapacity: 1236,
   totalfreight: 18000,
-pertonfreight: 2.6})
+  pertonfreight: 2.6
+})
+
 function getSourceAndDestinationList () {
   var obj = {
     srcCityInfo: [],
@@ -201,7 +204,7 @@ function getSourceAndDestinationList () {
       ['TruckOwner', 'O1', 'O2', 'O3', 'O4', 'O5']]
 
     var truckid = ['2744', '8295', '2790', '4062', '1095', '9549', '8813', '0464', '5499', '4386', '4757', '6711', '5155', '6000', '6397', '9264', '3907', '5611', '8081', '1531', '9413', '3626', '0662', '2475', '6649', '8685', '1340', '9575', '7293', '1554', '3314', '9397', '6910', '6841', '9101', '458', '5583', '3037', '2387', '2195', '6129', '6818', '0362', '9290', '5349', '479', '9194', '2893', '0250', '8543', '8975', '0763', '3113', '5570', '9915', '2193', '1694', '9991', '8322', '0944', '6040', '0827', '1921', '2112', '8077', '6533', '6430', '8608', '3944', '6687', '8241', '6536', '5513', '4008', '1313', '9953', '5756', '2379', '5724', '2092', '3778', '4036', '8978', '5571', '3537', '1488', '2572', '4421', '1734', '0801', '3144', '7992', '8988', '6067', '0919', '6807', '4637', '7031', '2569', '7217', '0726', '5939', '2464', '4689', '0826', '3651', '6278', '5461']
-    
+
     var trucktypeandcapacity = [
       ['22ft', 15000],
       ['32ft', 15000],
@@ -209,15 +212,21 @@ function getSourceAndDestinationList () {
       ['14ft', 3000],
       ['17ft', 4500]
     ]
-    var truckcapacity = { '22ft': {capacity: 15000 }, '32ft': { capacity: 15000 },'19ft': { capacity: 7500 },'14ft': { capacity: 3000 },'17ft': { capacity: 4500 } }
+    var truckcapacity = {
+      '22ft': { capacity: 15000 },
+      '32ft': { capacity: 15000 },
+      '19ft': { capacity: 7500 },
+      '14ft': { capacity: 3000 },
+      '17ft': { capacity: 4500 }
+    }
     var ctr = 0
-    for (i = 0;i < 10;i++) {
+    for (var i = 0; i < 10; i++) {
       result.forEach(function (distanceInfo) {
         var chtype = getRandomInt(0, 2)
         var chname = getRandomInt(1, 5)
         var ttype = getRandomInt(0, 4)
         var tid = getRandomInt(0, 107)
-        /**http://sblf.sustainabilityoutlook.in/file_space/SBLF%20Summit%20Presentations%202014/Sustainable%20freight%20transport_Sustainability%20Outlook.pdf */
+        // http://sblf.sustainabilityoutlook.in/file_space/SBLF%20Summit%20Presentations%202014/Sustainable%20freight%20transport_Sustainability%20Outlook.pdf
         var frtx = (Math.random() * (2.967 - 2.193) + 2.193).toFixed(3)
         resultarray.push({
           source: distanceInfo.source,
@@ -238,7 +247,8 @@ function getSourceAndDestinationList () {
           + distanceInfo.distance + '</td><td>' + channels[chtype][0] + '</td><td>' + channels[chtype][chname] + '</td><td>'
           + trucktypeandcapacity[ttype][0] + '</td><td>' + truckid[tid] + '</td><td>' +
           trucktypeandcapacity[ttype][1] + '</td><td>' + Math.floor(distanceInfo.distance.replace('km', '').replace(',', '') * frtx * trucktypeandcapacity[ttype][1] / 1000) + '</td></tr>'
-      })}
+      })
+    }
     $table.html(html)
   })
 }
@@ -261,13 +271,25 @@ function post_submit () {
   getTableValues(obj.srcCityInfo, 'srcCityInfo', ['city', 'volume'])
   getTableValues(obj.destCityInfo, 'destCityInfo', ['city', 'volume'])
   getDataTableValues(obj.fareInfo, 'datatable', ['source', 'destination', 'distance', 'channelType', 'channelName', 'truckType', 'truckId', 'truckCapacity', 'freight'])
-  $.ajax({
-    url: 'http://localhost:3000/process',
-    data: JSON.stringify(obj),
-    type: 'POST',
-    success: dataHandler,
-    error: errorHandler
+  var destination = obj.destCityInfo.map(function (cityInfo) {
+    return cityInfo.city
   })
+
+  prepareDistanceMatrix(destination, destination, function (err, destInterCityDist) {
+    if (err) {
+      alert(JSON.stringify(err))
+      return
+    }
+    obj.destInterCityDist = destInterCityDist
+    console.log(JSON.stringify(obj))
+    $.ajax({
+      url: 'http://localhost:3000/process',
+      data: JSON.stringify(obj),
+      type: 'POST',
+      success: dataHandler,
+      error: errorHandler
+    })
+  }) 
 }
 
 function getTableValues (array, tableName, columns) {
@@ -311,9 +333,9 @@ function populatechart () {
   for (var i = 0; i < resultarray.length; i++) {
     var chfind = chcounts.find(o => o.name === resultarray[i].channeltype)
     // console.log(chfind)
-    if (typeof (chfind) == 'undefined') {
-      chcounts.push({name: resultarray[i].channeltype,value: 1})
-    }else {
+    if (typeof (chfind) === 'undefined') {
+      chcounts.push({name: resultarray[i].channeltype, value: 1})
+    } else {
       chfind.value = chfind.value + 1
     }
   }
@@ -386,9 +408,9 @@ function populatechart3 () {
   for (var i = 0; i < resultarray.length; i++) {
     var chfind = chcounts.find(o => o.name === resultarray[i].trucktype)
     // console.log(chfind)
-    if (typeof (chfind) == 'undefined') {
-      chcounts.push({name: resultarray[i].trucktype,value: 1})
-    }else {
+    if (typeof (chfind) === 'undefined') {
+      chcounts.push({name: resultarray[i].trucktype, value: 1})
+    } else {
       chfind.value = chfind.value + 1
     }
   }
@@ -415,10 +437,9 @@ function populatechart3 () {
     .append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
-
   // The following code was contained in the callback function.
-  x.domain(chcounts.map(function (d) { return d.name; }))
-  y.domain([0, d3.max(chcounts, function (d) { return d.value; })])
+  x.domain(chcounts.map(function (d) { return d.name }))
+  y.domain([0, d3.max(chcounts, function (d) { return d.value })])
 
   svg.append('g')
     .attr('class', 'x axis')
@@ -451,7 +472,7 @@ function populatechart3 () {
 }
 
 function populateBoxplot () {
-  var labels = true; // show the text labels beside individual boxplots?
+  var labels = true // show the text labels beside individual boxplots?
 
   var margin = {top: 30, right: 50, bottom: 70, left: 50}
   var width = 800 - margin.left - margin.right
@@ -490,7 +511,6 @@ function populateBoxplot () {
   }
 
   // var data = []
-
 
   //	data[0] = []
   //	data[1] = []
@@ -544,8 +564,6 @@ function populateBoxplot () {
     .append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
-
-
   // the x-axis
   var x = d3.scale.ordinal()
     .domain(data.map(function (d) {
@@ -571,7 +589,6 @@ function populateBoxplot () {
     .enter().append('g')
     .attr('transform', function (d) { return 'translate(' + x(d[0]) + ',' + margin.top + ')'; })
     .call(chart.width(x.rangeBand()))
-
 
   // add a title
   svg.append('text')
@@ -676,7 +693,6 @@ function populateBoxplot2 () {
 
   // var data = []
 
-
   //	data[0] = []
   //	data[1] = []
   //	data[2] = []
@@ -727,8 +743,6 @@ function populateBoxplot2 () {
     .append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
-
-
   // the x-axis
   var x = d3.scale.ordinal()
     .domain(data.map(function (d) {
@@ -754,7 +768,6 @@ function populateBoxplot2 () {
     .enter().append('g')
     .attr('transform', function (d) { return 'translate(' + x(d[0]) + ',' + margin.top + ')'; })
     .call(chart.width(x.rangeBand()))
-
 
   // add a title
   /*svg.append("text")
