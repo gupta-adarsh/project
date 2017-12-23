@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+
+  <title>main form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" class="cp-pen-styles" href="css/sidemenubar.css">
+  <link rel="stylesheet" class="cp-pen-styles" href="css/selectButton.css">
+  <link rel="stylesheet" href="css/datatables/datatables.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDucogSgBbVlomU-EkaMkrkoczsHuSMdrc&libraries=places&region=IN"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="js/selectButton.js"></script>
+  <script src="js/box.js"></script>
+  <script src="js/main_form.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
+  <script src="js/datatables/datatables.js"></script>
+</head>
+
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-20 col-md-15 col-sm-18 col-xs-12 bhoechie-tab-container">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bhoechie-tab-menu">
+          <div class="list-group">
+            <a href="#" class="list-group-item active text-center">
+              <h4 class="glyphicon glyphicon-plane"></h4>
+              <br/>Model Inputs
+            </a>
+            <a href="#" class="list-group-item text-center">
+              <h4 class="glyphicon glyphicon-road"></h4>
+              <br/>Model Run
+            </a>
+            <a href="#" class="list-group-item text-center">
+              <h4 class="glyphicon glyphicon-home"></h4>
+              <br/>Results
+            </a>
+            <a href="#" class="list-group-item text-center">
+              <h4 class="glyphicon glyphicon-cutlery"></h4>
+              <br/>TBD1
+            </a>
+            <a href="#" class="list-group-item text-center">
+              <h4 class="glyphicon glyphicon-credit-card"></h4>
+              <br/>TBD2
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
+          <div class="bhoechie-tab-content active">
+            <center>
+              <div class="panel with-nav-tabs panel-primary">
+                <div class="panel-heading">
+                  <ul class="nav nav-tabs">
+                    <li class="active">
+                      <a href="#tab1primary" data-toggle="tab">Auction bids</a>
+                    </li>
+                    <li>
+                      <a href="#tab2primary" data-toggle="tab">System Freight</a>
+                    </li>
+                    <li>
+                      <a href="#tab3primary" data-toggle="tab">Manual</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" data-toggle="dropdown">Dropdown
+                        <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li>
+                          <a href="#tab4primary" data-toggle="tab">Primary 4</a>
+                        </li>
+                        <li>
+                          <a href="#tab5primary" data-toggle="tab">Primary 5</a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="panel-body">
+                  <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab1primary">Primary 1</div>
+                    <div class="tab-pane fade" id="tab2primary">Primary 2</div>
+                    <div class="tab-pane fade" id="tab3primary">Primary 3</div>
+                    <div class="tab-pane fade" id="tab4primary">Primary 4</div>
+                    <div class="tab-pane fade" id="tab5primary">Primary 5</div>
+                  </div>
+                </div>
+              </div>
+            </center>
+          </div>
+          <div class="bhoechie-tab-content">
+            <center>
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <table class="table table-bordered table-hover" id="srcCityInfo">
+                      <thead>
+                        <tr>
+                          <th>Depot Name</th>
+                          <th>Material Availabity</th>
+                          <th style="width:5px">
+                            <span class="glyphicon glyphicon-plus addBtn" id="addBtn_0"></span>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr id="tr_0">
+                          <td>
+                            <input type="text" id="sourceCity_0" name="location" class="form-control" />
+                          </td>
+                          <td>
+                            <input type="text" id="sourceFreight_0" class="form-control" />
+                          </td>
+                          <td>
+                            <span class="glyphicon glyphicon-minus addBtnRemove" id="addBtnRemove_0"></span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </center>
+          </div>
+          <div class="bhoechie-tab-content">
+            <center>
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <table class="table table-bordered table-hover" id="destCityInfo">
+                      <thead>
+                        <tr>
+                          <th>Destination</th>
+                          <th>Demand</th>
+                          <th style="width:5px">
+                            <span class="glyphicon glyphicon-plus addBtn" id="addBtn_0"></span>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr id="tr_0">
+                          <td>
+                            <input type="text" id="destinationCity_0" name="location" class="form-control" />
+                          </td>
+                          <td>
+                            <input type="text" id="destinationFreight_0" class="form-control" />
+                          </td>
+                          <td>
+                            <span class="glyphicon glyphicon-minus addBtnRemove" id="addBtnRemove_0"></span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </center>
+          </div>
+          <div class="bhoechie-tab-content">
+            <div id="wrap">
+              <div class="container">
+              <div class="col-lg-6">
+                <h3>A demo of Bootstrap data table</h3>
+                <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Source</th>
+                      <th>Destination</th>
+                      <th>Distance</th>
+                      <th>Channel Type</th>
+                      <th>Channel Name</th>
+                      <th>Truck Type</th>
+                      <th>Truck ID</th>
+                      <th>Truck Capacity</th>
+                      <th>Freight</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+            <a onclick="getSourceAndDestinationList()">Refresh</a>
+          </div>
+          <div class="bhoechie-tab-content">
+              <div class="panel panel-primary">
+                  <div class="panel-heading">Route wise freight</div>
+                  <div class="panel-body"><p id="chart1"></p></div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Total bids by channel</div>
+                    <div class="panel-body"><p id="chart2"></p></div>
+                  </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Truck availability by truck type</div>
+                    <div class="panel-body"><p id="chart3"></p></div>
+                </div>
+              <a onclick="populateBoxplot()">Refresh</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
